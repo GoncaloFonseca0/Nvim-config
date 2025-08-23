@@ -50,9 +50,6 @@ return {
         capabilities = capabilities,
       })
 
-      lspconfig.tsserver.setup({
-        capabilities = capabilities,
-      })
       lspconfig.solargraph.setup({
         capabilities = capabilities,
       })
@@ -65,6 +62,10 @@ return {
       lspconfig.clangd.setup({
         capabilities = capabilities,
       })
+  lspconfig.basedpyright.setup({
+        capabilities = capabilities,
+      })
+
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
@@ -86,5 +87,4 @@ return {
       -- Toggle compiler results
       vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
     end,
-  },
-}
+  },}

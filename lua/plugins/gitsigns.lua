@@ -1,7 +1,11 @@
 return {
   {
-    "tpope/vim-fugitive"
+    "tpope/vim-fugitive",
   },
-
-  vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup()
+    end,
+  }
 }
