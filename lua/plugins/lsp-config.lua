@@ -62,29 +62,28 @@ return {
       lspconfig.clangd.setup({
         capabilities = capabilities,
       })
-  lspconfig.basedpyright.setup({
+      lspconfig.pyright.setup({
         capabilities = capabilities,
       })
-
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 
-      -- Open compiler
-      vim.api.nvim_set_keymap("n", "<F6>", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
+     -- Open compiler    
+      vim.api.nvim_set_keymap("n", "<leader>cp", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
 
       -- Redo last selected option
       vim.api.nvim_set_keymap(
         "n",
-        "<S-F6>",
-        "<cmd>CompilerStop<cr>" -- (Optional, to dispose all tasks before redo)
+        "<leader>cr",
+        "<cmd>CompilerStop<rd>" -- (Optional, to dispose all tasks before redo)
         .. "<cmd>CompilerRedo<cr>",
         { noremap = true, silent = true }
       )
 
       -- Toggle compiler results
-      vim.api.nvim_set_keymap("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>tg", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
     end,
   },}
