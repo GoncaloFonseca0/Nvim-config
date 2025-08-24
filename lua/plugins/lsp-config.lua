@@ -1,5 +1,7 @@
-return {
 
+
+
+return {
   { -- This plugin
     "Zeioth/compiler.nvim",
     cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
@@ -10,14 +12,30 @@ return {
     "stevearc/overseer.nvim",
     commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
     cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-    opts = {
-      task_list = {
-        direction = "bottom",
-        min_height = 25,
-        max_height = 25,
-        default_detail = 1,
-      },
-    },
+    config = function()
+      require("overseer").setup({
+        task_list = {
+          direction = "bottom",
+          min_height = 25,
+          max_height = 25,
+          default_detail = 1,
+        },
+      })
+      -- Register custom Python3 run task
+      require("overseer").register_template({
+        name = "Run Python3 File",
+        builder = function()
+          return {
+            cmd = { "python3" },
+            args = { vim.fn.expand("%") },
+            components = { "default" },
+          }
+        end,
+        condition = {
+          filetype = { "python" },
+        },
+      })
+    end,
   },
 
   { "nvim-neotest/nvim-nio" },
@@ -50,28 +68,16 @@ return {
         capabilities = capabilities,
       })
 
-      lspconfig.solargraph.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.html.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-      })
+      lspconfig.html.setup({ capabilities = capabilities })
+      lspconfig.lua_ls.setup({ capabilities = capabilities })
+      lspconfig.pyright.setup({ capabilities = capabilities })
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 
-     -- Open compiler    
+      -- Open compiler    
       vim.api.nvim_set_keymap("n", "<leader>cp", "<cmd>CompilerOpen<cr>", { noremap = true, silent = true })
 
       -- Redo last selected option
@@ -86,4 +92,6 @@ return {
       -- Toggle compiler results
       vim.api.nvim_set_keymap("n", "<leader>tg", "<cmd>CompilerToggleResults<cr>", { noremap = true, silent = true })
     end,
-  },}
+  },
+}
+
